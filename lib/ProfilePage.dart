@@ -19,7 +19,10 @@ class _ProfilePageState extends State<ProfilePage> {
         width: 100,
         height: 100,
         child: Center(
-          child: Text('Ayush Jaiswal',style: TextStyle(fontSize: 20),),
+          child: Text(
+            'Ayush Jaiswal',
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
     );
