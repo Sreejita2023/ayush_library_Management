@@ -1,10 +1,9 @@
-import 'package:first_project/pages/home.dart';
 import 'package:first_project/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main()async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue, // Set primary color to blue
       ),
-      home: Home(),
+      home: SignUpPage(),
     );
   }
 }

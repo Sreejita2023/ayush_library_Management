@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_project/ProfilePage.dart';
 import 'package:first_project/signupPage.dart';
 import 'package:first_project/uiHelper.dart';
 import 'package:flutter/material.dart';
+import 'package:first_project/pages/home.dart';
 
-//
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -15,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    const IconData email_icon = IconData(0xee35, fontFamily: 'MaterialIcons');
+    const IconData email_icon = IconData(0xf705, fontFamily: 'MaterialIcons');
     const IconData password_icon =
         IconData(0xe47a, fontFamily: 'MaterialIcons');
     const IconData phone_icon = IconData(0xe4a2, fontFamily: 'MaterialIcons');
@@ -32,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           final credential = await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: email, password: password);
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context, MaterialPageRoute(builder: (context) => Home()));
         } on FirebaseAuthException catch (e) {
           if (e.code == 'user-not-found') {
             print('No user found for that email.');
@@ -45,7 +44,8 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text('Login',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           centerTitle: true,
         ),
         body: Center(

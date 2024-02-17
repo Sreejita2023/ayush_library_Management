@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_project/ProfilePage.dart';
-
-// import 'package:first_project/ProfilePage.dart';
+import 'package:first_project/pages/home.dart';
 import 'package:first_project/loginPage.dart';
 import 'package:first_project/uiHelper.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +14,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
-    const IconData email_icon = IconData(0xee35, fontFamily: 'MaterialIcons');
+    const IconData email_icon = IconData(0xf705, fontFamily: 'MaterialIcons');
     const IconData password_icon =
         IconData(0xe47a, fontFamily: 'MaterialIcons');
     const IconData phone_icon = IconData(0xe4a2, fontFamily: 'MaterialIcons');
@@ -37,7 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
           usercredential = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context, MaterialPageRoute(builder: (context) => Home()));
         } on FirebaseAuthException catch (ex) {
           return UiHelper.CustomAlertBox(context, ex.code.toString());
         }
@@ -46,7 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign Up Hello@2:27'),
+          title: Text('Sign Up',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           centerTitle: true,
         ),
         body: Center(
@@ -66,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                          hintText: 'Name',
+                          hintText: 'Email',
                           prefixIcon: Icon(email_icon),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),

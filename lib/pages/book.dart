@@ -2,7 +2,7 @@ import 'package:first_project/service/databse.dart';
 import 'package:flutter/material.dart';
 import 'package:first_project/uiHelper.dart';
 import 'package:random_string/random_string.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Book extends StatefulWidget {
   const Book({super.key});
@@ -14,14 +14,14 @@ class Book extends StatefulWidget {
 class _BookState extends State<Book> {
   TextEditingController bookController = TextEditingController();
   TextEditingController authorController = TextEditingController();
-  TextEditingController lenderController = TextEditingController();
+  TextEditingController borrowerController = TextEditingController();
   TextEditingController dateController = TextEditingController();
 
   static const IconData bookIcon =
       IconData(0xe0ef, fontFamily: 'MaterialIcons');
   static const IconData authorIcon =
       IconData(0xe491, fontFamily: 'MaterialIcons');
-  static IconData lenderIcon = IconData(0xf403, fontFamily: 'MaterialIcons');
+  static IconData borrowerIcon = IconData(0xf403, fontFamily: 'MaterialIcons');
   static const IconData dateIcon =
       IconData(0xe122, fontFamily: 'MaterialIcons');
 
@@ -29,10 +29,8 @@ class _BookState extends State<Book> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Add Book',
-          style: TextStyle(color: Colors.blue, fontSize: 20),
-        ),
+        title: Text('Add Book Details',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Container(
@@ -84,14 +82,14 @@ class _BookState extends State<Book> {
                   Container(
                     width: 80,
                     child: Text(
-                      "Lender",
+                      "Borrower",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ),
                   Container(
                     width: 250,
                     child: UiHelper.CustomTextField(
-                        lenderController, "Lender Name", lenderIcon, false),
+                        borrowerController, "Borrower", borrowerIcon, false),
                   )
                 ],
               ),
@@ -122,17 +120,12 @@ class _BookState extends State<Book> {
                 child: ElevatedButton(
                     onPressed: () async {
                       String Id = randomAlphaNumeric(10);
-                      print('id $Id');
-                      print('book ${bookController.text}');
-                      print('author ${authorController.text}');
-                      print('date ${dateController.text}');
-                      print('lender ${lenderController.text}');
 
                       Map<String, dynamic> bookInfoMap = {
                         "Book": bookController.text.toString(),
                         "Id": Id,
                         "Author": authorController.text.toString(),
-                        "Lender": lenderController.text.toString(),
+                        "Borrower": borrowerController.text.toString(),
                         "Date": dateController.text.toString(),
                       };
 
@@ -140,16 +133,16 @@ class _BookState extends State<Book> {
                           .addBookDetails(bookInfoMap, Id)
                           .then((value) {
                         print('uploaded succesfully');
-                        // Fluttertoast.showToast(
-                        //     msg: "Book Details Added Successfully",
-                        //     toastLength: Toast.LENGTH_SHORT,
-                        //     gravity: ToastGravity.CENTER,
-                        //     timeInSecForIosWeb: 1,
-                        //     backgroundColor: Colors.red,
-                        //     textColor: Colors.white,
-                        //     fontSize: 16.0);
+                        Fluttertoast.showToast(
+                            msg: "Book Details Added Successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       });
-                     },
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.blue), // Set the background color to blue
