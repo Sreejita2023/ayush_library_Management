@@ -1,5 +1,8 @@
+import 'package:first_project/service/databse.dart';
 import 'package:flutter/material.dart';
 import 'package:first_project/uiHelper.dart';
+import 'package:random_string/random_string.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 class Book extends StatefulWidget {
   const Book({super.key});
@@ -9,10 +12,10 @@ class Book extends StatefulWidget {
 }
 
 class _BookState extends State<Book> {
-  final bookController = TextEditingController();
-  final authorController = TextEditingController();
-  final lenderController = TextEditingController();
-  final dateController = TextEditingController();
+  TextEditingController bookController = TextEditingController();
+  TextEditingController authorController = TextEditingController();
+  TextEditingController lenderController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
   static const IconData bookIcon =
       IconData(0xe0ef, fontFamily: 'MaterialIcons');
@@ -112,18 +115,41 @@ class _BookState extends State<Book> {
                     )
                   ],
                 )),
-
-
-
             Container(
                 height: 50,
                 width: 150,
                 margin: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
-                    onPressed: () {
-                      // signup(emailController.text.toString(),
-                      //     passwordController.text.toString());
-                    },
+                    onPressed: () async {
+                      String Id = randomAlphaNumeric(10);
+                      print('id $Id');
+                      print('book ${bookController.text}');
+                      print('author ${authorController.text}');
+                      print('date ${dateController.text}');
+                      print('lender ${lenderController.text}');
+
+                      Map<String, dynamic> bookInfoMap = {
+                        "Book": bookController.text.toString(),
+                        "Id": Id,
+                        "Author": authorController.text.toString(),
+                        "Lender": lenderController.text.toString(),
+                        "Date": dateController.text.toString(),
+                      };
+
+                      await DatabaseMethods()
+                          .addBookDetails(bookInfoMap, Id)
+                          .then((value) {
+                        print('uploaded succesfully');
+                        // Fluttertoast.showToast(
+                        //     msg: "Book Details Added Successfully",
+                        //     toastLength: Toast.LENGTH_SHORT,
+                        //     gravity: ToastGravity.CENTER,
+                        //     timeInSecForIosWeb: 1,
+                        //     backgroundColor: Colors.red,
+                        //     textColor: Colors.white,
+                        //     fontSize: 16.0);
+                      });
+                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.blue), // Set the background color to blue
