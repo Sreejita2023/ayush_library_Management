@@ -1,3 +1,4 @@
+import 'package:first_project/pages/home.dart';
 import 'package:first_project/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue, // Set primary color to blue
       ),
-      home: SignUpPage(),
+      home: Home(),
     );
   }
 }
