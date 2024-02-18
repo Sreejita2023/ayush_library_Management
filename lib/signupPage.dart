@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_project/formHelper.dart';
 import 'package:first_project/pages/home.dart';
 import 'package:first_project/loginPage.dart';
 import 'package:first_project/uiHelper.dart';
@@ -14,10 +15,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
-    const IconData email_icon = IconData(0xf705, fontFamily: 'MaterialIcons');
-    const IconData password_icon =
-        IconData(0xe47a, fontFamily: 'MaterialIcons');
-    const IconData phone_icon = IconData(0xe4a2, fontFamily: 'MaterialIcons');
+    final formKey = GlobalKey<FormState>();
 
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -26,18 +24,15 @@ class _SignUpPageState extends State<SignUpPage> {
     signup(String email, String password) async {
       print("SignUp page");
       print("email: $email");
-      if (email == "" && password == "") {
-        UiHelper.CustomAlertBox(context, "Enter the required fields");
-      } else {
-        UserCredential? usercredential;
-
+      if (formKey.currentState!.validate()) {
+        // use the email provided here
         try {
-          usercredential = await FirebaseAuth.instance
+          UserCredential? usercredential = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Home()));
-        } on FirebaseAuthException catch (ex) {
-          return UiHelper.CustomAlertBox(context, ex.code.toString());
+        } catch (ex) {
+          return UiHelper.CustomAlertBox(context, ex.toString());
         }
       }
     }
@@ -57,85 +52,48 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             Container(
               width: 300,
-              child: Column(
-                children: [
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 40),
-                    child: TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon: Icon(email_icon),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.blueAccent, width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2))),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      // height: 50,
+                      margin: const EdgeInsets.only(top: 40),
+                      child: TextFormField(
+                          validator: Validators.emailValidator,
+                          controller: emailController,
+                          decoration: customDecoration.customInputDecoration(
+                              "Email", Icons.email)),
                     ),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 20),
-                    child: TextField(
-                      obscureText: true,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        prefixIcon: Icon(password_icon),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: Colors.blueAccent, width: 2)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 2)),
-                      ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                          validator: Validators.passwordValidator,
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: customDecoration.customInputDecoration(
+                              "Password", Icons.password)),
                     ),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 20),
-                    child: TextField(
-                      keyboardType: TextInputType.phone,
-                      controller: phoneController,
-                      decoration: InputDecoration(
-                          hintText: 'Phone',
-                          prefixIcon: Icon(phone_icon),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.blueAccent, width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2))),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                          validator: Validators.phoneNumberValidator,
+                          keyboardType: TextInputType.phone,
+                          controller: phoneController,
+                          decoration: customDecoration.customInputDecoration(
+                              "Phone Number", Icons.phone)),
                     ),
-                  )
-                ],
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: UiHelper.CustomButton(() {
+                        signup(emailController.text.toString(),
+                            passwordController.text.toString());
+                      }, "Submit"),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Container(
-                height: 50,
-                width: 150,
-                margin: const EdgeInsets.only(top: 20),
-                child: ElevatedButton(
-                    onPressed: () {
-                      signup(emailController.text.toString(),
-                          passwordController.text.toString());
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.blue), // Set the background color to blue
-                    ),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ))),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -158,3 +116,5 @@ class _SignUpPageState extends State<SignUpPage> {
         )));
   }
 }
+
+
