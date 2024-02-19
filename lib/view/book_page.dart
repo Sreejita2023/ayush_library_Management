@@ -1,6 +1,6 @@
-import 'package:first_project/service/databse.dart';
+import 'package:first_project/service/database.dart';
 import 'package:flutter/material.dart';
-import 'package:first_project/uiHelper.dart';
+import 'package:first_project/utils/uiHelper.dart';
 import 'package:random_string/random_string.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -87,6 +87,7 @@ class _BookState extends State<Book> {
                     ),
                   ),
                   Container(
+
                     width: 250,
                     child: UiHelper.CustomTextField(
                         borrowerController, "Borrower", borrowerIcon, false),
@@ -132,7 +133,7 @@ class _BookState extends State<Book> {
                       await DatabaseMethods()
                           .addBookDetails(bookInfoMap, Id)
                           .then((value) {
-                        print('uploaded succesfully');
+                        print('uploaded successfully');
                         Fluttertoast.showToast(
                             msg: "Book Details Added Successfully",
                             toastLength: Toast.LENGTH_SHORT,

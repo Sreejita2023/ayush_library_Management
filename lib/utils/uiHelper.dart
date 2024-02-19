@@ -1,4 +1,3 @@
-import 'package:first_project/service/authentication.dart';
 import 'package:flutter/material.dart';
 
 class UiHelper {

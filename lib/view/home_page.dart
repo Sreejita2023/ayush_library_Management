@@ -1,6 +1,6 @@
-import 'package:first_project/pages/book.dart';
-import 'package:first_project/service/databse.dart';
-import 'package:first_project/uiHelper.dart';
+import 'package:first_project/view/book_page.dart';
+import 'package:first_project/service/database.dart';
+import 'package:first_project/utils/uiHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
