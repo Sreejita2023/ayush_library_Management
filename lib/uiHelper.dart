@@ -1,3 +1,4 @@
+import 'package:first_project/service/authentication.dart';
 import 'package:flutter/material.dart';
 
 class UiHelper {
@@ -33,8 +34,7 @@ class UiHelper {
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
-                Colors
-                    .blue), // Set the background color to blue
+                Colors.blue), // Set the background color to blue
           ),
         ));
   }

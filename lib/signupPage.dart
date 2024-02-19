@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/formHelper.dart';
 import 'package:first_project/pages/home.dart';
 import 'package:first_project/loginPage.dart';
+import 'package:first_project/service/authentication.dart';
 import 'package:first_project/uiHelper.dart';
 import 'package:flutter/material.dart';
 
@@ -111,10 +112,31 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(fontSize: 20),
                     ))
               ],
-            )
+            ),
+            Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    Text(
+                      "Or Sign In With",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Authentication().signInWithGoogle(this.context);
+                          },
+                          iconSize: 30,
+                          padding: EdgeInsets.all(15.0),
+                          icon: Icon(Icons.icecream),
+                        )
+                      ],
+                    )
+                  ],
+                ))
           ],
         )));
   }
 }
-
-
