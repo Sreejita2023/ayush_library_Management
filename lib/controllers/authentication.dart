@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_project/view/home_page.dart';
+import 'package:first_project/view/library_page.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -34,7 +34,21 @@ class Authentication {
             context, MaterialPageRoute(builder: (context) => Home()));
       }
     } catch (e) {
+      print(e.toString());
       UiHelper.CustomAlertBox(context, e.toString());
     }
   }
+
+  static Future<UserCredential?> signUpWithEmailAndPassword(
+      {required String email, required String password}) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return userCredential;
+    } catch (e) {
+      print("Failed to sign up: $e");
+      return null;
+    }
+  }
+
 }

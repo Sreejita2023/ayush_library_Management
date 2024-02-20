@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/utils/formHelper.dart';
-import 'package:first_project/view/home_page.dart';
+import 'package:first_project/view/library_page.dart';
 import 'package:first_project/view/login_page.dart';
-import 'package:first_project/service/authentication.dart';
+import 'package:first_project/controllers/authentication.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:first_project/utils/validators.dart';
 import 'package:flutter/material.dart';
@@ -15,30 +15,43 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final formKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+  void initState() {
+    super.initState();
+  }
 
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final phoneController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+  }
 
-    signup(String email, String password) async {
-      print("SignUp page");
-      print("email: $email");
-      if (formKey.currentState!.validate()) {
-        // use the email provided here
-        try {
-          UserCredential? usercredential = await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home()));
-        } catch (ex) {
-          return UiHelper.CustomAlertBox(context, ex.toString());
-        }
+  Future<void> _handleSignUp(email, password) async {
+    if (formKey.currentState!.validate()) {
+      try {
+        UserCredential? usercredential =
+            await Authentication.signUpWithEmailAndPassword(
+                email: emailController.text.toString(),
+                password: passwordController.text.toString());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } catch (ex) {
+        return UiHelper.CustomAlertBox(context, ex.toString());
       }
     }
+  }
 
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -89,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       child: UiHelper.CustomButton(() {
-                        signup(emailController.text.toString(),
+                        _handleSignUp(emailController.text.toString(),
                             passwordController.text.toString());
                       }, "Submit"),
                     ),

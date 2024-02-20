@@ -1,4 +1,4 @@
-import 'package:first_project/service/database.dart';
+import 'package:first_project/controllers/database.dart';
 import 'package:flutter/material.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:random_string/random_string.dart';
@@ -17,17 +17,10 @@ class _BookState extends State<Book> {
   TextEditingController borrowerController = TextEditingController();
   TextEditingController dateController = TextEditingController();
 
-  static const IconData bookIcon =
-      IconData(0xe0ef, fontFamily: 'MaterialIcons');
-  static const IconData authorIcon =
-      IconData(0xe491, fontFamily: 'MaterialIcons');
-  static IconData borrowerIcon = IconData(0xf403, fontFamily: 'MaterialIcons');
-  static const IconData dateIcon =
-      IconData(0xe122, fontFamily: 'MaterialIcons');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Add Book Details',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -51,7 +44,7 @@ class _BookState extends State<Book> {
                   Container(
                     width: 250,
                     child: UiHelper.CustomTextField(
-                        bookController, "Book Name", bookIcon, false),
+                        bookController, "Book Name", Icons.book, false),
                   )
                 ],
               ),
@@ -70,7 +63,7 @@ class _BookState extends State<Book> {
                   Container(
                     width: 250,
                     child: UiHelper.CustomTextField(
-                        authorController, "Author Name", authorIcon, false),
+                        authorController, "Author Name", Icons.person, false),
                   )
                 ],
               ),
@@ -90,7 +83,7 @@ class _BookState extends State<Book> {
 
                     width: 250,
                     child: UiHelper.CustomTextField(
-                        borrowerController, "Borrower", borrowerIcon, false),
+                        borrowerController, "Borrower", Icons.person_2, false),
                   )
                 ],
               ),
@@ -110,7 +103,7 @@ class _BookState extends State<Book> {
                     Container(
                       width: 250,
                       child: UiHelper.CustomTextField(
-                          dateController, "Enter Date", dateIcon, false),
+                          dateController, "Enter Date", Icons.calendar_month, false),
                     )
                   ],
                 )),
@@ -139,7 +132,7 @@ class _BookState extends State<Book> {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.CENTER,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.blue,
                             textColor: Colors.white,
                             fontSize: 16.0);
                       });

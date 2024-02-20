@@ -3,7 +3,7 @@ import 'package:first_project/utils/formHelper.dart';
 import 'package:first_project/view/signup_page.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:flutter/material.dart';
-import 'package:first_project/view/home_page.dart';
+import 'package:first_project/view/library_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
