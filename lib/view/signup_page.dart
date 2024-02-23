@@ -24,10 +24,6 @@ class _SignUpPageState extends State<SignUpPage> {
   void _handleEmailAndPasswordSignUp(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential? usercredential =
-            await Authentication().signUpWithEmailAndPassword(
-                email: emailController.text.toString(),
-                password: passwordController.text.toString());
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Library()));
       } catch (ex) {

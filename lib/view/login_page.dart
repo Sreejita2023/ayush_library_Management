@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/utils/formHelper.dart';
 import 'package:first_project/view/signup_page.dart';
 import 'package:first_project/utils/uiHelper.dart';
@@ -26,8 +25,6 @@ class _LoginPageState extends State<LoginPage> {
         UiHelper.CustomAlertBox(context, "Enter the required fields");
       } else {
         try {
-          final credential = await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: email, password: password);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Library()));
         } catch (ex) {
