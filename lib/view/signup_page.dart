@@ -42,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 email: emailController.text.toString(),
                 password: passwordController.text.toString());
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => Library()));
       } catch (ex) {
         return UiHelper.CustomAlertBox(context, ex.toString());
       }

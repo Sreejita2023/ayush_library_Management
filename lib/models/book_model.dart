@@ -1,9 +1,7 @@
-// book_model.dart
-
 class Book {
   final String title;
   final String author;
-  final String id; // Assuming id is the unique identifier for the book
+  final String id;
   final String borrower;
   final String date;
 

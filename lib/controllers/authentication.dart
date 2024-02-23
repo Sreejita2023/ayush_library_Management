@@ -31,7 +31,7 @@ class Authentication {
         // Navigate to HomePage
         print("Hello");
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => Library()));
       }
     } catch (e) {
       print(e.toString());

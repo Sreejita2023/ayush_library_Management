@@ -4,14 +4,14 @@ import 'package:first_project/utils/uiHelper.dart';
 import 'package:random_string/random_string.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Book extends StatefulWidget {
-  const Book({super.key});
+class CreateBook extends StatefulWidget {
+  const CreateBook({super.key});
 
   @override
-  State<Book> createState() => _BookState();
+  State<CreateBook> createState() => _BookState();
 }
 
-class _BookState extends State<Book> {
+class _BookState extends State<CreateBook> {
   TextEditingController bookController = TextEditingController();
   TextEditingController authorController = TextEditingController();
   TextEditingController borrowerController = TextEditingController();
@@ -22,8 +22,8 @@ class _BookState extends State<Book> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Add Book Details',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        title:
+            Text('Add Book Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Container(
@@ -37,14 +37,14 @@ class _BookState extends State<Book> {
                   Container(
                     width: 80,
                     child: Text(
-                      "Book Name",
+                      "Title",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ),
                   Container(
                     width: 250,
                     child: UiHelper.CustomTextField(
-                        bookController, "Book Name", Icons.book, false),
+                        bookController, "Title of Book", Icons.book, false),
                   )
                 ],
               ),
@@ -80,7 +80,6 @@ class _BookState extends State<Book> {
                     ),
                   ),
                   Container(
-
                     width: 250,
                     child: UiHelper.CustomTextField(
                         borrowerController, "Borrower", Icons.person_2, false),
@@ -113,18 +112,16 @@ class _BookState extends State<Book> {
                 margin: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
                     onPressed: () async {
-                      String Id = randomAlphaNumeric(10);
-
-                      Map<String, dynamic> bookInfoMap = {
-                        "Book": bookController.text.toString(),
-                        "Id": Id,
-                        "Author": authorController.text.toString(),
-                        "Borrower": borrowerController.text.toString(),
-                        "Date": dateController.text.toString(),
-                      };
+                      String id = randomAlphaNumeric(10);
 
                       await DatabaseMethods()
-                          .addBookDetails(bookInfoMap, Id)
+                          .addBookDetails2(
+                        title: bookController.text.toString(),
+                        id: id,
+                        author: authorController.text.toString(),
+                        borrower: borrowerController.text.toString(),
+                        date: dateController.text.toString(),
+                      )
                           .then((value) {
                         print('uploaded successfully');
                         Fluttertoast.showToast(
