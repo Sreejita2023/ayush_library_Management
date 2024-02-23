@@ -1,8 +1,7 @@
 import 'package:first_project/view/create_book_page.dart';
-import 'package:first_project/controllers/database.dart';
+import 'package:first_project/controllers/crud_controller.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_project/models/book_model.dart';
 
 class Library extends StatefulWidget {
@@ -134,6 +133,124 @@ class _HomeState extends State<Library> {
   //   );
   // }
 
+  Future EditBookDetail(String id) => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      content: Container(
+        child: ListView(
+          shrinkWrap: true,
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.cancel),
+            ),
+            SizedBox(
+              width: 60,
+            ),
+            Text(
+              'Edit',
+              style: TextStyle(color: Colors.blue, fontSize: 20),
+            ),
+            Text(
+              'Details',
+              style: TextStyle(color: Colors.blue, fontSize: 20),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              // Set the top margin as needed
+              child: Row(
+                children: [
+                  Container(
+                    width: 80,
+                    child: Text(
+                      "Book",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: UiHelper.CustomTextField(
+                        bookController, "Book Name", Icons.book, false),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              // Set the top margin as needed
+              child: Row(
+                children: [
+                  Container(
+                    width: 80,
+                    child: Text(
+                      "Author",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: UiHelper.CustomTextField(
+                        authorController, "Author Name", Icons.book, false),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              // Set the top margin as needed
+              child: Row(
+                children: [
+                  Container(
+                    width: 80,
+                    child: Text(
+                      "Borrower",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: UiHelper.CustomTextField(
+                        borrowerController, "Borrower Name", Icons.person, false),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              // Set the top margin as needed
+              child: Row(
+                children: [
+                  Container(
+                    width: 80,
+                    child: Text(
+                      "Issued on",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: UiHelper.CustomTextField(
+                        dateController, "Enter Date", Icons.calendar_month, false),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+                child: UiHelper.CustomButton(() {
+                  _updateBookDetails(id);
+                }, 'Update'))
+          ],
+        ),
+      ),
+    ),
+  );
+
   Future<void> _updateBookDetails(id) async {
     Map<String, dynamic> updateInfo = {
       "Book": bookController.text.toString(),
@@ -180,7 +297,7 @@ class _HomeState extends State<Library> {
     return Scaffold(
       body: Container(
         child: FutureBuilder(
-          future: DatabaseMethods().fetchAnimals(),
+          future: DatabaseMethods().getBookDetails(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Book>? books = snapshot.data;
@@ -191,7 +308,7 @@ class _HomeState extends State<Library> {
                 return ListView.builder(
                     itemCount: books.length,
                     itemBuilder: (context, index) {
-                      return booKTile(books[index]);
+                      return _booKTile(books[index]);
                     });
               }
             } else if (snapshot.hasError) {
@@ -209,7 +326,7 @@ class _HomeState extends State<Library> {
     );
   }
 
-  Widget booKTile(Book book) {
+  Widget _booKTile(Book book) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: Material(
@@ -293,122 +410,4 @@ class _HomeState extends State<Library> {
       ),
     );
   }
-
-  Future EditBookDetail(String id) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: Container(
-            child: ListView(
-              shrinkWrap: true,
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.cancel),
-                ),
-                SizedBox(
-                  width: 60,
-                ),
-                Text(
-                  'Edit',
-                  style: TextStyle(color: Colors.blue, fontSize: 20),
-                ),
-                Text(
-                  'Details',
-                  style: TextStyle(color: Colors.blue, fontSize: 20),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  // Set the top margin as needed
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 80,
-                        child: Text(
-                          "Book",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        child: UiHelper.CustomTextField(
-                            bookController, "Book Name", Icons.book, false),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  // Set the top margin as needed
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 80,
-                        child: Text(
-                          "Author",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        child: UiHelper.CustomTextField(
-                            authorController, "Author Name", Icons.book, false),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  // Set the top margin as needed
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 80,
-                        child: Text(
-                          "Borrower",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        child: UiHelper.CustomTextField(
-                            borrowerController, "Borrower Name", Icons.person, false),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  // Set the top margin as needed
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 80,
-                        child: Text(
-                          "Issued on",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        child: UiHelper.CustomTextField(
-                            dateController, "Enter Date", Icons.calendar_month, false),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Center(
-                    child: UiHelper.CustomButton(() {
-                  _updateBookDetails(id);
-                }, 'Update'))
-              ],
-            ),
-          ),
-        ),
-      );
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/utils/formHelper.dart';
 import 'package:first_project/view/library_page.dart';
 import 'package:first_project/view/login_page.dart';
-import 'package:first_project/controllers/authentication.dart';
+import 'package:first_project/controllers/authentication_controller.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:first_project/utils/validators.dart';
 import 'package:flutter/material.dart';
@@ -21,24 +21,11 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    phoneController.dispose();
-  }
-
-  Future<void> _handleSignUp(email, password) async {
+  void _handleEmailAndPasswordSignUp(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
         UserCredential? usercredential =
-            await Authentication.signUpWithEmailAndPassword(
+            await Authentication().signUpWithEmailAndPassword(
                 email: emailController.text.toString(),
                 password: passwordController.text.toString());
         Navigator.push(
@@ -49,6 +36,17 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  void _handleGoogleSignIn() async {
+    try {
+      UserCredential? user = await Authentication().signInWithGoogle();
+      if (user != null) {
+        print("Google SignIn successfully");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Library()));
+      }
+    } catch (e) {
+      UiHelper.CustomAlertBox(context, "Google SignIn Error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       child: UiHelper.CustomButton(() {
-                        _handleSignUp(emailController.text.toString(),
+                        _handleEmailAndPasswordSignUp(emailController.text.toString(),
                             passwordController.text.toString());
                       }, "Submit"),
                     ),
@@ -140,9 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                          onPressed: () {
-                            Authentication().signInWithGoogle(this.context);
-                          },
+                          onPressed: _handleGoogleSignIn,
                           iconSize: 30,
                           padding: EdgeInsets.all(15.0),
                           icon: Icon(Icons.icecream),
@@ -152,6 +148,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ))
           ],
-        )));
+        ),),);
   }
 }

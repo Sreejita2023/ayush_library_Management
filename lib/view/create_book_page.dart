@@ -1,4 +1,4 @@
-import 'package:first_project/controllers/database.dart';
+import 'package:first_project/controllers/crud_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:first_project/utils/uiHelper.dart';
 import 'package:random_string/random_string.dart';
@@ -115,7 +115,7 @@ class _BookState extends State<CreateBook> {
                       String id = randomAlphaNumeric(10);
 
                       await DatabaseMethods()
-                          .addBookDetails2(
+                          .addBookDetails(
                         title: bookController.text.toString(),
                         id: id,
                         author: authorController.text.toString(),
