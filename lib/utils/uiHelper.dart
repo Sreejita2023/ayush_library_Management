@@ -13,30 +13,28 @@ class UiHelper {
             suffixIcon: Icon(iconData),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: Colors.blueAccent, width: 2)),
+                borderSide: const BorderSide(color: Colors.blueAccent, width: 2)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide:
-                BorderSide(color: Colors.grey, width: 2))),
-
+                borderSide: const BorderSide(color: Colors.grey, width: 2))),
       ),
     );
   }
 
   static CustomButton(VoidCallback voidCallback, String text) {
-    return SizedBox(
+    return Container(
         height: 50,
-        width: 200,
+        width: 150,
         child: ElevatedButton(
           child:
-              Text(text, style: TextStyle(color: Colors.white, fontSize: 20)),
+              Text(text, style: const TextStyle(color: Colors.white, fontSize: 20)),
           onPressed: () {
             voidCallback();
           },
-          style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20))),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+                Colors.blue), // Set the background color to blue
+          ),
         ));
   }
 
@@ -51,7 +49,7 @@ class UiHelper {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Ok"))
+                child: const Text("Ok"))
           ],
         );
       },
